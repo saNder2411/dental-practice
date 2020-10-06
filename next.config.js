@@ -2,6 +2,11 @@ require('dotenv').config();
 
 module.exports = {
   env: {
-    API_URL: process.env.API_URL,
+    domain: process.env.domain,
+    clientId: process.env.clientId,
+    redirectUri: process.redirectUri,
+    postLogoutRedirectUri: process.env.postLogoutRedirectUri,
+    cookieSecret: process.env.cookieSecret,
+    clientSecret: process.env.clientSecret,
   },
 };
