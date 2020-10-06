@@ -50,14 +50,14 @@ export const MainLayout: FC<Props> = ({ title = `Next App`, keywords, descriptio
               </Menu.Item>
               {user && !loading
                 ? [
-                    <Menu.Item key="/api/logout" icon={<CloudDownloadOutlined />}>
-                      <Link href="/api/logout">
-                        <a>Logout</a>
-                      </Link>
-                    </Menu.Item>,
                     <Menu.Item key="/profile" icon={<UserOutlined />}>
                       <Link href="/profile">
                         <a>Profile</a>
+                      </Link>
+                    </Menu.Item>,
+                    <Menu.Item key="/api/logout" icon={<CloudDownloadOutlined />}>
+                      <Link href="/api/logout">
+                        <a>Logout</a>
                       </Link>
                     </Menu.Item>,
                   ]
