@@ -1,6 +1,5 @@
 import { createContext, useEffect, useContext, useState } from 'react';
 
-// Use a global to save the user, so we don't have to fetch it again after page navigations
 let userState: null | Object;
 
 interface UserState {
@@ -23,7 +22,6 @@ export const fetchUser = async () => {
 export const UserProvider = ({ value, children }: { value: UserState; children: JSX.Element | JSX.Element[] | [] }) => {
   const { user } = value;
 
-  // If the user was fetched in SSR add it to userState so we don't fetch it again
   useEffect(() => {
     if (!userState && user) {
       userState = user;
@@ -42,21 +40,18 @@ export const useFetchUser = () => {
   });
 
   useEffect(() => {
-    if (userState !== undefined) {
-      return;
-    }
+    if (userState !== undefined) return;
 
-    let isMounted = true;
+    let canceled = false;
 
     fetchUser().then((user) => {
-      // Only set the user if the component is still mounted
-      if (isMounted) {
-        setUser({ user, loading: false });
-      }
+      if (canceled) return;
+
+      setUser({ user, loading: false });
     });
 
     return () => {
-      isMounted = false;
+      canceled = true;
     };
   }, [userState]);
 

@@ -1,10 +1,10 @@
-import { MainLayout } from '../layouts';
+import { MainLayout } from '../components';
 
 const Index = () => {
   return (
     <MainLayout title={`Next App`}>
-      <section style={{ color: 'darkblue', background: 'tomato', textAlign: 'center', padding: 30, width: '100%', marginBottom: 'auto' }}>
-        <h1>Home Page</h1>
+      <section style={{ background: 'tomato', textAlign: 'center', padding: 30 }}>
+        <h2>Home Page</h2>
       </section>
     </MainLayout>
   );

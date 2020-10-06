@@ -1,11 +1,7 @@
-import { MainLayout } from '../layouts';
-import styled from 'styled-components';
-import { useFetchUser } from '../utils/user';
+import { MainLayout } from '../components';
+import { useFetchUser } from '../lib/UserContext';
 import Router from 'next/router';
-
-const StyledProfile = styled.div`
-  
-`;
+import { Card } from 'antd';
 
 export default function Profile() {
   const { user, loading } = useFetchUser();
@@ -23,15 +19,14 @@ export default function Profile() {
 
   return (
     <MainLayout>
-      <StyledProfile>
-        <section style={{ color: 'darkblue', background: 'tomato', textAlign: 'center', padding: 30 }}>
-          <h1>Profile Page</h1>
-        </section>
-        <p>Welcome to the Profile Page! Here is your profile information:</p>
+      <section style={{ background: 'tomato', textAlign: 'center', padding: 30 }}>
+        <h2>Profile Page</h2>
+      </section>
+      <Card title="Welcome to the Profile Page! Here is your profile information:" bordered={false}>
         <pre>
           <code>{JSON.stringify(user, null, 2)}</code>
         </pre>
-      </StyledProfile>
+      </Card>
     </MainLayout>
   );
 }

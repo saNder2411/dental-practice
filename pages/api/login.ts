@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 // Auth0
-import auth0 from '../../utils/auth0';
+import auth0 from '../../lib/auth0';
 
 const login = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
