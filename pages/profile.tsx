@@ -1,9 +1,11 @@
-import { MainLayout } from '../components';
-import { useFetchUser } from '../lib/UserContext';
 import Router from 'next/router';
 import { Card } from 'antd';
+// Components
+import { MainLayout } from '../components';
+// User Context
+import { useFetchUser } from '../lib/UserContext';
 
-export default function Profile() {
+const Profile = () => {
   const { user, loading } = useFetchUser();
 
   if (loading) {
@@ -29,4 +31,6 @@ export default function Profile() {
       </Card>
     </MainLayout>
   );
-}
+};
+
+export default Profile;
