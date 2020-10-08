@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Layout, Menu } from 'antd';
-import { UserOutlined, CloudUploadOutlined, CloudSyncOutlined, CloudDownloadOutlined, HomeOutlined } from '@ant-design/icons';
+import { UserOutlined, CloudUploadOutlined, CloudSyncOutlined, CloudDownloadOutlined, HomeOutlined, InsertRowAboveOutlined } from '@ant-design/icons';
 // Styled Components
 import * as SC from './MainMenuStyled';
 // User Context
@@ -27,12 +27,17 @@ export const MainMenu: FC<Props> = ({ collapsed }): JSX.Element => {
           </Menu.Item>
           {user && !loading
             ? [
-                <Menu.Item key="/profile" icon={<UserOutlined style={{ fontSize: '20px' }}  />}>
+                <Menu.Item key="/dental-table" icon={<InsertRowAboveOutlined style={{ fontSize: '20px' }} />}>
+                  <Link href="/dental-table">
+                    <a>Data Table</a>
+                  </Link>
+                </Menu.Item>,
+                <Menu.Item key="/profile" icon={<UserOutlined style={{ fontSize: '20px' }} />}>
                   <Link href="/profile">
                     <a>Profile</a>
                   </Link>
                 </Menu.Item>,
-                <Menu.Item key="/api/logout" icon={<CloudDownloadOutlined style={{ fontSize: '20px' }}  />}>
+                <Menu.Item key="/api/logout" icon={<CloudDownloadOutlined style={{ fontSize: '20px' }} />}>
                   <Link href="/api/logout">
                     <a>Logout</a>
                   </Link>
@@ -41,12 +46,12 @@ export const MainMenu: FC<Props> = ({ collapsed }): JSX.Element => {
             : null}
           {!user && !loading
             ? [
-                <Menu.Item key="/api/register" icon={<CloudUploadOutlined style={{ fontSize: '20px' }}  />}>
+                <Menu.Item key="/api/register" icon={<CloudUploadOutlined style={{ fontSize: '20px' }} />}>
                   <Link href="/api/register">
                     <a>Sign Up</a>
                   </Link>
                 </Menu.Item>,
-                <Menu.Item key="/api/login" icon={<CloudSyncOutlined style={{ fontSize: '20px' }}  />}>
+                <Menu.Item key="/api/login" icon={<CloudSyncOutlined style={{ fontSize: '20px' }} />}>
                   <Link href="/api/login">
                     <a>Login</a>
                   </Link>
