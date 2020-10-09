@@ -16,6 +16,7 @@ export const fetchUser = async () => {
 
   const res = await fetch('/api/me');
   userState = res.ok ? await res.json() : null;
+  userState && await fetch('/api/access');
   return userState;
 };
 

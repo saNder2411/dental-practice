@@ -89,7 +89,6 @@ const data = [
   },
 ];
 
-const ACCESS_TOKEN = `C3XT1qUgQuYJovXaCSDnjGcs6HYPZ9vJ`;
 const ENDPOINT_1 = `https://sa-toniguy01.metroapps.online/site/_api/web/lists/getbytitle('HR03-Team Calendar')/Items?select=Title,ID,EventDate,EndDate,AppointmentStatus,AppointmentSource,Description,Notes,MetroRRule,MetroRecException,EventType,MasterSeriesItemID,RecurrenceID,Duration,LookupHR01team\/Id,LookupCM102customers\/Id,LookupMultiBP01offerings\/Id,fAllDayEvent,TrackingComments,FirstName,LastNameAppt,CellPhone,Email,SubmissionIdUIT,FilterStart,FilterEnd&$expand=LookupMultiBP01offerings,LookupCM102customers,LookupHR01team&$orderby=FilterStart asc`;
 
 interface DentalTableProps {
@@ -120,7 +119,7 @@ export const getStaticProps = async () => {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json;odata=verbose',
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${process.env.accessToken}`,
     },
   });
 

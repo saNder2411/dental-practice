@@ -10,5 +10,7 @@ module.exports = {
     POST_LOGOUT_REDIRECT_URI: process.env.POST_LOGOUT_REDIRECT_URI || 'http://localhost:3000/',
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
     SESSION_COOKIE_LIFETIME: 60 * 60 * 8,
+    API_CLIENT_ID: process.env.API_CLIENT_ID,
+    API_CLIENT_SECRET: process.env.API_CLIENT_SECRET,
   },
 };

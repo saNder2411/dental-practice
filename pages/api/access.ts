@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import {} from '@auth0/nextjs-auth0';
 // Auth0
 import auth0 from '../../lib/auth0';
 
@@ -8,23 +9,64 @@ const ENDPOINT_3 = `https://sa-toniguy01.metroapps.online/site/_api/web/lists/ge
 const ENDPOINT_4 = `https://sa-client.metroapps.online/_api/Web/Lists/GetByTitle('SPRESTAPILearning')/Fields?$select=Title,InternalName&$filter=ReadOnlyField%20eq%20false`;
 const ENDPOINT_5 = `https://api.github.com/search/repositories?q=created:%3E2020-07-01&sort=stars&order=desc`;
 
-const getList = async (req: NextApiRequest, res: NextApiResponse) => {
+interface User {
+  nickname: string;
+  name: string;
+  picture: string;
+  updated_at: Date;
+  sub: string;
+}
+
+interface Session {
+  user: User;
+  createdAt: number;
+  idToken: string;
+  accessToken: string;
+  accessTokenScope: string;
+  accessTokenExpiresAt: number;
+  refreshToken: string;
+}
+
+interface Auth0Token {
+  access_token: string;
+  token_type: string;
+}
+
+interface SPAccessData {
+  identities: Array<{ user_id: string }>;
+}
+
+const getAccess = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const accessToken = await auth0.getSession(req);
-    const dentalRes = await fetch(ENDPOINT_1, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json;odata=verbose',
-        Authorization: `Bearer ${accessToken?.accessToken}`,
-      },
+    const session = (await auth0.getSession(req)) as Session | null | undefined;
+    const responseAuth0Token = await fetch(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        client_id: process.env.API_CLIENT_ID,
+        client_secret: process.env.API_CLIENT_SECRET,
+        audience: `https://${process.env.AUTH0_DOMAIN}/api/v2/`,
+        grant_type: 'client_credentials',
+      }),
     });
 
-    const dentalData = await dentalRes.json();
+    const dataAuth0Token: Auth0Token | undefined | null = await responseAuth0Token.json();
 
-    res.json({ accessToken, dentalData });
+    const responseSPAccess = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${session?.user.sub}`, {
+      method: 'GET',
+      headers: { authorization: `Bearer ${dataAuth0Token?.access_token}` },
+    });
+
+    const dataSPAccess: SPAccessData | undefined | null = await responseSPAccess.json();
+
+    process.env.accessToken = dataSPAccess?.identities ? dataSPAccess?.identities[0].user_id : `undefined`;
+
+    console.log(`env api`, process.env.accessToken);
+
+    res.json({ session, dataAuth0Token, dataSPAccess });
   } catch (error) {
     console.error(error);
     res.status(error.status || 500).end(error.message);
   }
 };
-export default getList;
+export default getAccess;
