@@ -33,7 +33,7 @@ interface Auth0Token {
 }
 
 interface SPAccessData {
-  identities: Array<{ user_id: string }>;
+  identities: Array<{ access_token: string }>;
 }
 
 const getAccess = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -59,9 +59,19 @@ const getAccess = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const dataSPAccess: SPAccessData | undefined | null = await responseSPAccess.json();
 
-    process.env.accessToken = dataSPAccess?.identities ? dataSPAccess?.identities[0].user_id : `undefined`;
+    process.env.accessToken = dataSPAccess?.identities ? dataSPAccess?.identities[0].access_token : `undefined`;
 
     console.log(`env api`, process.env.accessToken);
+
+    const tableData = await fetch(ENDPOINT_1, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json;odata=verbose',
+        authorization: `Bearer ${process.env.accessToken}`,
+      },
+    });
+
+    console.log(`tableData`, tableData);
 
     res.json({ session, dataAuth0Token, dataSPAccess });
   } catch (error) {
