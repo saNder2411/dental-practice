@@ -50,6 +50,7 @@ const getAccess = async (req: NextApiRequest, res: NextApiResponse) => {
         grant_type: 'client_credentials',
       }),
     });
+
     const auth0Token: Auth0Token | undefined | null = await responseAuth0Token.json();
 
     const responseSPAccess = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${session?.user.sub}`, {
